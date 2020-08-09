@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      .square {
+        height: 30px;
+        width: 30px;
+        margin: 10px;
+        background-color: aqua;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <div class="square"></div>
+      <div class="square"></div>
+      <div class="square"></div>
+    </div>
+  </body>
+  <script src="./jQuery.js"></script>
+  <script>
+    $(".square")
+      .css("background-color", "blue")
+      .click(function () {
+        $(this).css("background-color", "pink");
+      });
+  </script>
+</html>
