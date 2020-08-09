@@ -21,15 +21,24 @@
         el.addEventListener("click", fn.bind(this));
       });
     }
+    html(htmlStr) {
+      this.elements.forEach((el) => {
+        el.innerHTML = htmlStr;
+      });
+    }
   }
 
+  /**
+   * Ajax class attached to the $ as a utility class
+   */
   class Ajax extends Object {
     doneHandlers = [];
     constructor(options) {
-      fetch({ url: options.url })
-        .then((res) => res.json)
-        .then((json) => {
-          this.json = json;
+      super();
+      fetch(options.url)
+        .then((res) => res.json())
+        .then((responseJson) => {
+          this.json = responseJson;
           this.doneHandlers.forEach((handler) => {
             handler(this.json);
           });
@@ -44,6 +53,11 @@
       return this;
     }
   }
+
+  /**
+   * Main jQuery function
+   * @param {string | this} selector
+   */
   function jQueryFn(selector) {
     if (typeof selector === "string") {
       return new Selection(selector);
@@ -53,7 +67,7 @@
     }
   }
 
-  jQueryFn.prototype.ajax = function (requestConfig) {
+  jQueryFn.ajax = function (requestConfig) {
     return new Ajax(requestConfig);
   };
 

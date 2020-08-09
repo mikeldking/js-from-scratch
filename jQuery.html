@@ -17,6 +17,7 @@
       <div class="square"></div>
       <div class="square"></div>
     </div>
+    <ul class="list"></ul>
   </body>
   <script src="./jQuery.js"></script>
   <script>
@@ -25,5 +26,11 @@
       .click(function () {
         $(this).css("background-color", "pink");
       });
+    $.ajax({ url: "https://swapi.dev/api/people/" }).done((data) => {
+      const { results } = data;
+      $(".list").html(
+        results.map((person) => `<li>${person.name}</li>`).join("")
+      );
+    });
   </script>
 </html>
