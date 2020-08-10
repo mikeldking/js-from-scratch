@@ -3,6 +3,8 @@
 Implementing JS features from scratch just for fun.
 
 - [x] promise
-- [ ] react
-- [ ] react hooks
+- [x] react
+- [x] react hooks
+- [ ] react effects
 - [x] jQuery
+- [ ] lodash

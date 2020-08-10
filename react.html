@@ -13,20 +13,33 @@
     window.React = React;
   </script>
   <script type="text/babel">
-    const { useState } = React;
+    const { useState, useEffect } = React;
     const App = () => {
       const [count, setCount] = useState(0);
+      const [input, setInput] = useState("");
+      useEffect(() => {
+        alert("count changed " + count);
+      }, [count]);
       return (
         <div>
           <h1>Hello World</h1>
-          <p>{count}</p>
-          <button
-            onclick={() => {
-              setCount(count + 1);
-            }}
-          >
-            Increment
-          </button>
+          <section>
+            <p>{count}</p>
+            <button
+              onclick={() => {
+                setCount(count + 1);
+              }}
+            >
+              Increment
+            </button>
+          </section>
+          <section>
+            <input
+              type="text"
+              value={input}
+              input={(e) => setInput(e.target.value)}
+            />
+          </section>
         </div>
       );
     };

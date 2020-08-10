@@ -37,6 +37,20 @@ export function useState(initVal) {
   return [state, setState];
 }
 
+export function useEffect(cb, depsArr) {
+  const oldDeps = hooks[idx];
+  let depsHasChanged = true;
+  if (oldDeps) {
+    depsHasChanged = oldDeps.some((dep, index) => {
+      return !Object.is(dep, depsArr[index]);
+    });
+  }
+
+  if (depsHasChanged) {
+    cb();
+  }
+  idx++;
+}
 export function render(element, container) {
   element = typeof element === "function" ? element() : element;
   const dom =
@@ -59,6 +73,7 @@ export function render(element, container) {
 export default {
   createElement,
   useState,
+  useEffect,
   render: (element, container) => {
     render(element, container);
     setInterval(() => {
