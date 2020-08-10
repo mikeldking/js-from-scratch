@@ -10,17 +10,26 @@
   </body>
   <script type="module">
     import React from "./react.js";
-    import ReactDOM from "./react-dom.js";
     window.React = React;
-    window.ReactDOM = ReactDOM;
   </script>
   <script type="text/babel">
-    ReactDOM.render(
-      <div>
-        <h1>Hello World</h1>
-        <p>This is a paragraph</p>
-      </div>,
-      document.getElementById("react-root")
-    );
+    const { useState } = React;
+    const App = () => {
+      const [count, setCount] = useState(0);
+      return (
+        <div>
+          <h1>Hello World</h1>
+          <p>{count}</p>
+          <button
+            onclick={() => {
+              setCount(count + 1);
+            }}
+          >
+            Increment
+          </button>
+        </div>
+      );
+    };
+    React.render(App, document.getElementById("react-root"));
   </script>
 </html>

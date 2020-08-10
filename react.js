@@ -22,6 +22,53 @@ export function createElement(elementType, props, ...children) {
   return el;
 }
 
+let hooks = [];
+let idx = 0;
+let dirty = false;
+
+export function useState(initVal) {
+  const _idx = idx++;
+  const state = hooks[_idx] || initVal;
+  const setState = (newVal) => {
+    console.log("setting new val " + newVal);
+    dirty = true;
+    hooks[_idx] = newVal;
+  };
+  return [state, setState];
+}
+
+export function render(element, container) {
+  element = typeof element === "function" ? element() : element;
+  const dom =
+    element.type === "TEXT_ELEMENT"
+      ? document.createTextNode("")
+      : document.createElement(element.type);
+  Object.keys(element.props)
+    .filter((key) => key !== "children")
+    .forEach((key) => {
+      dom[key] = element.props[key];
+    });
+  if (element.props.children) {
+    element.props.children.forEach((child) => {
+      render(child, dom);
+    });
+  }
+  container.appendChild(dom);
+}
+
 export default {
   createElement,
+  useState,
+  render: (element, container) => {
+    render(element, container);
+    setInterval(() => {
+      if (dirty) {
+        console.log("re-render");
+        idx = 0;
+        container.innerHTML = "";
+        render(element, container);
+        dirty = false;
+      }
+    }, 10);
+  },
 };
