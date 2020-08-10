@@ -15,30 +15,40 @@
   <script type="text/babel">
     const { useState, useEffect } = React;
     const App = () => {
-      const [count, setCount] = useState(0);
-      const [input, setInput] = useState("");
+      const [person, setPerson] = useState(1);
+      const [personData, setPersonData] = useState(null);
       useEffect(() => {
-        alert("count changed " + count);
-      }, [count]);
+        fetch(`https://swapi.py4e.com/api/people/${person}`, {
+          headers: {
+            Accept: "application/json",
+          },
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            setPersonData(data);
+          });
+      }, [person]);
       return (
         <div>
-          <h1>Hello World</h1>
+          <h1>Star Wars Person Viewer</h1>
           <section>
-            <p>{count}</p>
+            <p>
+              {personData ? <span>{JSON.stringify(personData)}</span> : null}
+            </p>
             <button
               onclick={() => {
-                setCount(count + 1);
+                setPerson(person - 1);
               }}
             >
-              Increment
+              Previous
             </button>
-          </section>
-          <section>
-            <input
-              type="text"
-              value={input}
-              input={(e) => setInput(e.target.value)}
-            />
+            <button
+              onclick={() => {
+                setPerson(person + 1);
+              }}
+            >
+              Next
+            </button>
           </section>
         </div>
       );

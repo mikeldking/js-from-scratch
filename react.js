@@ -48,10 +48,14 @@ export function useEffect(cb, depsArr) {
 
   if (depsHasChanged) {
     cb();
+    hooks[idx] = depsArr;
   }
   idx++;
 }
 export function render(element, container) {
+  if (!element) {
+    return;
+  }
   element = typeof element === "function" ? element() : element;
   const dom =
     element.type === "TEXT_ELEMENT"
