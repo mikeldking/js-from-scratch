@@ -100,4 +100,39 @@ describe("lodash", () => {
       { user: "pebbles", active: false },
     ]);
   });
+  it("should implement dropWhile", () => {
+    var users = [
+      { user: "barney", active: false },
+      { user: "fred", active: false },
+      { user: "pebbles", active: true },
+    ];
+
+    expect(
+      _.dropWhile(users, function (o) {
+        return !o.active;
+      })
+    ).toEqual([{ user: "pebbles", active: true }]);
+    // => objects for ['pebbles']
+
+    // The `_.matches` iteratee shorthand.
+    expect(_.dropWhile(users, { user: "barney", active: false })).toEqual([
+      { user: "fred", active: false },
+      { user: "pebbles", active: true },
+    ]);
+    // => objects for ['fred', 'pebbles']
+
+    // The `_.matchesProperty` iteratee shorthand.
+    expect(_.dropWhile(users, ["active", false])).toEqual([
+      { user: "pebbles", active: true },
+    ]);
+    // => objects for ['pebbles']
+
+    // The `_.property` iteratee shorthand.
+    expect(_.dropWhile(users, "active")).toEqual([
+      { user: "barney", active: false },
+      { user: "fred", active: false },
+      { user: "pebbles", active: true },
+    ]);
+    // => objects for ['barney', 'fred', 'pebbles']
+  });
 });

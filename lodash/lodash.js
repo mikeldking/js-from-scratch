@@ -60,8 +60,7 @@ function dropRight(arr, count = 1) {
   return arr.slice(0, Math.max(0, arr.length - count));
 }
 
-function dropRightWhile(arr, predicate = identity) {
-  let res = Array.from(arr);
+function normalizePredicate(predicate) {
   if (Array.isArray(predicate)) {
     predicate = matchesProperty(predicate);
   } else if (typeof predicate === "object") {
@@ -69,10 +68,20 @@ function dropRightWhile(arr, predicate = identity) {
   } else if (typeof predicate === "string") {
     predicate = property(predicate);
   }
+  return predicate;
+}
+
+function dropRightWhile(arr, predicate = identity) {
+  let res = Array.from(arr);
+  predicate = normalizePredicate(predicate);
   while (res.length && predicate(res[res.length - 1])) {
     res.pop();
   }
   return res;
+}
+
+function dropWhile(arr, predicate = identity) {
+  return dropRightWhile(Array.from(arr).reverse(), predicate).reverse();
 }
 
 function isEqual(x, y) {
@@ -107,7 +116,7 @@ function identity(x) {
   return x;
 }
 
-module.exports = {
+const _ = {
   chunk,
   compact,
   concat,
@@ -117,5 +126,10 @@ module.exports = {
   drop,
   dropRight,
   dropRightWhile,
+  dropWhile,
+  property,
+  identity,
   isEqual,
 };
+
+module.exports = _;

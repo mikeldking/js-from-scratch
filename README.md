@@ -8,5 +8,3 @@ Implementing JS features from scratch just for fun.
   - [x] effects
 - [x] jQuery
 - [ ] lodash (in progress)
-  - [x] chunk
-  - [ ] compact
