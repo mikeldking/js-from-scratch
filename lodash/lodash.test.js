@@ -135,4 +135,97 @@ describe("lodash", () => {
     ]);
     // => objects for ['barney', 'fred', 'pebbles']
   });
+  it("should implement fill", () => {
+    var array = [1, 2, 3];
+
+    expect(_.fill(array, "a")).toEqual(["a", "a", "a"]);
+
+    expect(_.fill(Array(3), 2)).toEqual([2, 2, 2]);
+
+    expect(_.fill([4, 6, 8, 10], "*", 1, 3)).toEqual([4, "*", "*", 10]);
+  });
+  it("should implement findIndex", () => {
+    var users = [
+      { user: "barney", active: false },
+      { user: "fred", active: false },
+      { user: "pebbles", active: true },
+    ];
+
+    expect(
+      _.findIndex(users, function (o) {
+        return o.user == "barney";
+      })
+    ).toEqual(0);
+    // => 0
+
+    // The `_.matches` iteratee shorthand.
+    expect(_.findIndex(users, { user: "fred", active: false })).toEqual(1);
+    // => 1
+
+    // The `_.matchesProperty` iteratee shorthand.
+    expect(_.findIndex(users, ["active", false])).toEqual(0);
+    // => 0
+
+    // The `_.property` iteratee shorthand.
+    expect(_.findIndex(users, "active")).toEqual(2);
+    // => 2
+  });
+  it("should implement findLastIndex", () => {
+    var users = [
+      { user: "barney", active: true },
+      { user: "fred", active: false },
+      { user: "pebbles", active: false },
+    ];
+
+    expect(
+      _.findLastIndex(users, function (o) {
+        return o.user == "pebbles";
+      })
+    ).toEqual(2);
+    // => 2
+
+    // The `_.matches` iteratee shorthand.
+    expect(_.findLastIndex(users, { user: "barney", active: true })).toEqual(0);
+    // => 0
+
+    // The `_.matchesProperty` iteratee shorthand.
+    expect(_.findLastIndex(users, ["active", false])).toEqual(2);
+    // => 2
+
+    // The `_.property` iteratee shorthand.
+    expect(_.findLastIndex(users, "active")).toEqual(0);
+    // => 0
+  });
+  it("should implement head", () => {
+    expect(_.head([1, 2, 3])).toEqual(1);
+    // => 1
+
+    expect(_.head([])).toEqual(undefined);
+    // => undefined
+  });
+  it("should implement flatten", () => {
+    expect(_.flatten([1, [2, [3, [4]], 5]])).toEqual([1, 2, [3, [4]], 5]);
+    // => [1, 2, [3, [4]], 5]
+  });
+  it("should implement flattenDeep", () => {
+    expect(_.flattenDeep([1, [2, [3, [4]], 5]])).toEqual([1, 2, 3, 4, 5]);
+  });
+  it("should implement flattenDepth", () => {
+    var array = [1, [2, [3, [4]], 5]];
+
+    expect(_.flattenDepth(array, 1)).toEqual([1, 2, [3, [4]], 5]);
+    // => [1, 2, [3, [4]], 5]
+
+    expect(_.flattenDepth(array, 2)).toEqual([1, 2, 3, [4], 5]);
+    // => [1, 2, 3, [4], 5]
+  });
+  it("should implement fromPairs", () => {
+    expect(
+      _.fromPairs([
+        ["a", 1],
+        ["b", 2],
+      ])
+    ).toEqual({ a: 1, b: 2 });
+    // => { 'a': 1, 'b': 2 }
+  });
 });

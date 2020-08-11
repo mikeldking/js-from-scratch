@@ -84,6 +84,79 @@ function dropWhile(arr, predicate = identity) {
   return dropRightWhile(Array.from(arr).reverse(), predicate).reverse();
 }
 
+function fill(arr, val, start = 0, end = arr.length) {
+  for (let i = start; i < end; i++) {
+    arr[i] = val;
+  }
+  return arr;
+}
+
+function findIndex(arr, predicate = identity) {
+  predicate = normalizePredicate(predicate);
+  return arr.findIndex(predicate);
+}
+
+function findLastIndex(arr, predicate = identity) {
+  predicate = normalizePredicate(predicate);
+  let index = -1;
+  for (let i = arr.length - 1; i >= 0; i--) {
+    if (predicate(arr[i], i)) {
+      index = i;
+      return index;
+    }
+  }
+  return index;
+}
+
+function head(arr) {
+  if (arr.length) {
+    return arr[0];
+  }
+}
+
+function flatten(arr) {
+  return arr.reduce((acc, v) => {
+    if (Array.isArray(v)) {
+      acc = [...acc, ...v];
+    } else {
+      acc.push(v);
+    }
+    return acc;
+  }, []);
+}
+
+function flattenDeep(arr) {
+  return arr.reduce((acc, v) => {
+    if (Array.isArray(v)) {
+      acc = [...acc, ...flattenDeep(v)];
+    } else {
+      acc.push(v);
+    }
+    return acc;
+  }, []);
+}
+
+function flattenDepth(arr, depth = 1) {
+  if (depth <= 0) {
+    return arr;
+  }
+  return arr.reduce((acc, v) => {
+    if (Array.isArray(v)) {
+      acc = [...acc, ...flattenDepth(v, depth - 1)];
+    } else {
+      acc.push(v);
+    }
+    return acc;
+  }, []);
+}
+
+function fromPairs(pairs) {
+  return pairs.reduce((acc, [key, value]) => {
+    acc[key] = value;
+    return acc;
+  }, {});
+}
+
 function isEqual(x, y) {
   if (typeof x === "object" && typeof y === "object") {
     const xKeys = Object.keys(x);
@@ -127,6 +200,14 @@ const _ = {
   dropRight,
   dropRightWhile,
   dropWhile,
+  fill,
+  head,
+  findIndex,
+  findLastIndex,
+  flatten,
+  flattenDeep,
+  flattenDepth,
+  fromPairs,
   property,
   identity,
   isEqual,
