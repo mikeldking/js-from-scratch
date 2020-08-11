@@ -15,9 +15,56 @@ describe("lodash", () => {
   it("should handle concat", () => {
     var array = [1];
     var other = _.concat(array, 2, [3], [[4]]);
-
     expect(other).toEqual([1, 2, 3, [4]]);
-
     expect(array).toEqual([1]);
+  });
+  it("should handle difference", () => {
+    expect(_.difference([2, 1], [2, 3])).toEqual([1]);
+  });
+
+  it("should handle differenceBy", () => {
+    expect(_.differenceBy([2.1, 1.2], [2.3, 3.4], Math.floor)).toEqual([1.2]);
+
+    // The `_.property` iteratee shorthand.
+    expect(_.differenceBy([{ x: 2 }, { x: 1 }], [{ x: 1 }], "x")).toEqual([
+      { x: 2 },
+    ]);
+    // => [{ 'x': 2 }]
+  });
+  it("should implement differenceWith", () => {
+    var objects = [
+      { x: 1, y: 2 },
+      { x: 2, y: 1 },
+    ];
+
+    _.differenceWith(objects, [{ x: 1, y: 2 }], _.isEqual);
+    // => [{ 'x': 2, 'y': 1 }]
+  });
+  it("should implement drop", () => {
+    expect(_.drop([1, 2, 3])).toEqual([2, 3]);
+    // => [2, 3]
+
+    expect(_.drop([1, 2, 3], 2)).toEqual([3]);
+    // => [3]
+
+    expect(_.drop([1, 2, 3], 5)).toEqual([]);
+    // => []
+
+    expect(_.drop([1, 2, 3], 0)).toEqual([1, 2, 3]);
+    // => [1, 2, 3]
+  });
+  it("should implement isEqual", () => {
+    var object = { a: 1 };
+    var other = { a: 1 };
+
+    expect(_.isEqual(object, other)).toBe(true);
+    // => true
+  });
+  it("should implement dropRight", () => {
+    expect(_.dropRight([1, 2, 3])).toEqual([1, 2]);
+    expect(_.dropRight([1, 2, 3], 2)).toEqual([1]);
+    expect(_.dropRight([1, 2, 3], 5)).toEqual([]);
+    expect(_.dropRight([1, 2, 3], 0)).toEqual([1, 2, 3]);
+    // => [1, 2, 3]
   });
 });

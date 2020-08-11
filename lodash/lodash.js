@@ -29,8 +29,58 @@ function concat(arr, ...values) {
   ];
 }
 
+function difference(arr, secondArr) {
+  return differenceBy(arr, secondArr, (x) => x);
+}
+
+function differenceBy(arr, secondArr, iterator) {
+  let iter = iterator;
+  if (typeof iterator === "string") {
+    iter = (x) => x[iterator];
+  }
+  const map = secondArr.reduce((acc, val) => {
+    acc[iter(val)] = true;
+    return acc;
+  }, {});
+  return arr.filter((x) => !map[iter(x)]);
+}
+
+function differenceWith(arr, secondArr, compare) {
+  return arr.filter((x) => {
+    return !secondArr.some((y) => {
+      return compare(x, y);
+    });
+  });
+}
+
+function drop(arr, count = 1) {
+  return arr.slice(count);
+}
+function dropRight(arr, count = 1) {
+  return arr.slice(0, Math.max(0, arr.length - count));
+}
+function isEqual(x, y) {
+  if (typeof x === "object" && typeof y === "object") {
+    const xKeys = Object.keys(x);
+    const yKeys = Object.keys(y);
+    return (
+      xKeys.length === yKeys.length &&
+      !xKeys.some((xKey) => {
+        return !isEqual(x[xKey], y[xKey]);
+      })
+    );
+  }
+  return x === y;
+}
+
 module.exports = {
   chunk,
   compact,
   concat,
+  difference,
+  differenceBy,
+  differenceWith,
+  drop,
+  dropRight,
+  isEqual,
 };
