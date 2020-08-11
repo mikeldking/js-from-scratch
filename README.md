@@ -4,7 +4,9 @@ Implementing JS features from scratch just for fun.
 
 - [x] promise
 - [x] react
-- [x] react hooks
-- [ ] react effects
+  - [x] hooks
+  - [x] effects
 - [x] jQuery
-- [ ] lodash
+- [ ] lodash (in progress)
+  - [x] chunk
+  - [ ] compact

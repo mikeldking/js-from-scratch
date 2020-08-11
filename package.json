@@ -1,0 +1,28 @@
+{
+  "name": "js-from-scratch",
+  "version": "0.0.0",
+  "description": "Building JS ecosytem tools and libraries from scratch",
+  "main": "None",
+  "dependencies": {
+    "jest": "^26.3.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mikeldking/js-from-scratch.git"
+  },
+  "keywords": [
+    "lodash",
+    "react",
+    "jQuery"
+  ],
+  "author": "mikeldking@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mikeldking/js-from-scratch/issues"
+  },
+  "homepage": "https://github.com/mikeldking/js-from-scratch#readme"
+}
