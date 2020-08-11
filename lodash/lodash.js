@@ -30,7 +30,7 @@ function concat(arr, ...values) {
 }
 
 function difference(arr, secondArr) {
-  return differenceBy(arr, secondArr, (x) => x);
+  return differenceBy(arr, secondArr, identity);
 }
 
 function differenceBy(arr, secondArr, iterator) {
@@ -59,6 +59,22 @@ function drop(arr, count = 1) {
 function dropRight(arr, count = 1) {
   return arr.slice(0, Math.max(0, arr.length - count));
 }
+
+function dropRightWhile(arr, predicate = identity) {
+  let res = Array.from(arr);
+  if (Array.isArray(predicate)) {
+    predicate = matchesProperty(predicate);
+  } else if (typeof predicate === "object") {
+    predicate = matches(predicate);
+  } else if (typeof predicate === "string") {
+    predicate = property(predicate);
+  }
+  while (res.length && predicate(res[res.length - 1])) {
+    res.pop();
+  }
+  return res;
+}
+
 function isEqual(x, y) {
   if (typeof x === "object" && typeof y === "object") {
     const xKeys = Object.keys(x);
@@ -73,6 +89,24 @@ function isEqual(x, y) {
   return x === y;
 }
 
+const matches = (obj1) => (obj2) => {
+  return !Object.keys(obj1).some((key) => {
+    return obj1[key] !== obj2[key];
+  });
+};
+
+const matchesProperty = (tuple) => (obj) => {
+  return obj[tuple[0]] === tuple[1];
+};
+
+const property = (str) => (obj) => {
+  return obj[str];
+};
+
+function identity(x) {
+  return x;
+}
+
 module.exports = {
   chunk,
   compact,
@@ -82,5 +116,6 @@ module.exports = {
   differenceWith,
   drop,
   dropRight,
+  dropRightWhile,
   isEqual,
 };

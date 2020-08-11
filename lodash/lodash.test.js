@@ -65,6 +65,39 @@ describe("lodash", () => {
     expect(_.dropRight([1, 2, 3], 2)).toEqual([1]);
     expect(_.dropRight([1, 2, 3], 5)).toEqual([]);
     expect(_.dropRight([1, 2, 3], 0)).toEqual([1, 2, 3]);
-    // => [1, 2, 3]
+  });
+  it("should implement dropRightWhile", () => {
+    var users = [
+      { user: "barney", active: true },
+      { user: "fred", active: false },
+      { user: "pebbles", active: false },
+    ];
+
+    expect(
+      _.dropRightWhile(users, function (o) {
+        return !o.active;
+      })
+    ).toEqual([{ user: "barney", active: true }]);
+    // => objects for ['barney']
+
+    // The `_.matches` iteratee shorthand.
+    expect(_.dropRightWhile(users, { user: "pebbles", active: false })).toEqual(
+      [
+        { user: "barney", active: true },
+        { user: "fred", active: false },
+      ]
+    );
+
+    // The `_.matchesProperty` iteratee shorthand.
+    expect(_.dropRightWhile(users, ["active", false])).toEqual([
+      { user: "barney", active: true },
+    ]);
+
+    // The `_.property` iteratee shorthand.
+    expect(_.dropRightWhile(users, "active")).toEqual([
+      { user: "barney", active: true },
+      { user: "fred", active: false },
+      { user: "pebbles", active: false },
+    ]);
   });
 });
