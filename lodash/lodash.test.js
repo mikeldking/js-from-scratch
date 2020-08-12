@@ -1,6 +1,6 @@
 const _ = require("./lodash.js");
 
-describe("lodash", () => {
+describe("lodash array", () => {
   it("should handle chunk", () => {
     expect(_.chunk([1, 2, 3, 4, 5], 2)).toEqual([[1, 2], [3, 4], [5]]);
     expect(_.chunk([1, 2, 3, 4, 5], 3)).toEqual([
@@ -227,5 +227,79 @@ describe("lodash", () => {
       ])
     ).toEqual({ a: 1, b: 2 });
     // => { 'a': 1, 'b': 2 }
+  });
+  it("should implement indexOf", () => {
+    expect(_.indexOf([1, 2, 1, 2], 2)).toEqual(1);
+    // => 1
+
+    // Search from the `fromIndex`.
+    expect(_.indexOf([1, 2, 1, 2], 2, 2)).toEqual(3);
+    // => 3
+  });
+  it("should implement initial", () => {
+    expect(_.initial([1, 2, 3])).toEqual([1, 2]);
+    // => [1, 2]
+  });
+});
+
+describe("lodash collection", () => {
+  it("should implement countBy", () => {
+    expect(_.countBy([6.1, 4.2, 6.3], Math.floor)).toEqual({ "4": 1, "6": 2 });
+    // => { '4': 1, '6': 2 }
+
+    // The `_.property` iteratee shorthand.
+    expect(_.countBy(["one", "two", "three"], "length")).toEqual({
+      "3": 2,
+      "5": 1,
+    });
+    // => { '3': 2, '5': 1 }
+  });
+  it("should implement every", () => {
+    expect(_.every([true, 1, null, "yes"], Boolean)).toEqual(false);
+    // => false
+
+    var users = [
+      { user: "barney", age: 36, active: false },
+      { user: "fred", age: 40, active: false },
+    ];
+
+    // The `_.matches` iteratee shorthand.
+    expect(_.every(users, { user: "barney", active: false })).toEqual(false);
+    // => false
+
+    // The `_.matchesProperty` iteratee shorthand.
+    expect(_.every(users, ["active", false])).toEqual(true);
+    // => true
+  });
+  it("should implement filter", () => {
+    var users = [
+      { user: "barney", age: 36, active: true },
+      { user: "fred", age: 40, active: false },
+    ];
+
+    expect(
+      _.filter(users, function (o) {
+        return !o.active;
+      })
+    ).toEqual([{ user: "fred", age: 40, active: false }]);
+    // => objects for ['fred']
+
+    // The `_.matches` iteratee shorthand.
+    expect(_.filter(users, { age: 36, active: true })).toEqual([
+      { user: "barney", age: 36, active: true },
+    ]);
+    // => objects for ['barney']
+
+    // The `_.matchesProperty` iteratee shorthand.
+    expect(_.filter(users, ["active", false])).toEqual([
+      { user: "fred", age: 40, active: false },
+    ]);
+    // => objects for ['fred']
+
+    // The `_.property` iteratee shorthand.
+    expect(_.filter(users, "active")).toEqual([
+      { user: "barney", age: 36, active: true },
+    ]);
+    // => objects for ['barney']
   });
 });

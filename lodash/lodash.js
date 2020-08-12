@@ -157,6 +157,19 @@ function fromPairs(pairs) {
   }, {});
 }
 
+function indexOf(arr, value, fromIndex = 0) {
+  for (var i = fromIndex; i < arr.length; i++) {
+    if (arr[i] === value) {
+      return i;
+    }
+  }
+  return -1;
+}
+
+function initial(arr) {
+  return arr.slice(0, arr.length - 1);
+}
+
 function isEqual(x, y) {
   if (typeof x === "object" && typeof y === "object") {
     const xKeys = Object.keys(x);
@@ -189,6 +202,32 @@ function identity(x) {
   return x;
 }
 
+//--- collection ---
+
+function countBy(collection, iteratee = identity) {
+  iteratee = normalizePredicate(iteratee);
+  return collection.reduce((acc, val) => {
+    const key = iteratee(val);
+    acc[key] = acc[key] ? acc[key] + 1 : 1;
+    return acc;
+  }, {});
+}
+
+function every(collection, predicate = identity) {
+  predicate = normalizePredicate(predicate);
+  for (var i = 0; i < collection.length; i++) {
+    const shouldBeTruthy = predicate(collection[i], i);
+    if (!shouldBeTruthy) {
+      return false;
+    }
+  }
+  return true;
+}
+
+function filter(collection, predicate = identity) {
+  return collection.filter(normalizePredicate(predicate));
+}
+
 const _ = {
   chunk,
   compact,
@@ -208,6 +247,12 @@ const _ = {
   flattenDeep,
   flattenDepth,
   fromPairs,
+  indexOf,
+  initial,
+  // Collection
+  countBy,
+  every,
+  filter,
   property,
   identity,
   isEqual,
